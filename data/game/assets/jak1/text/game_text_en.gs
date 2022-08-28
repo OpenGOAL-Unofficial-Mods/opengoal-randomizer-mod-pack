@@ -18,8 +18,8 @@
 ;; -----------------
 ;; progress menu (insanity)
 
-(#x1000 "CAMERA OPTOINS"
-        "CAMERA OPTOINS")
+(#x1000 "CAMERA OPTIONS"
+        "CAMERA OPTIONS")
 (#x1001 "NORMAL"
         "NORMAL")
 (#x1002 "INVERTED"
