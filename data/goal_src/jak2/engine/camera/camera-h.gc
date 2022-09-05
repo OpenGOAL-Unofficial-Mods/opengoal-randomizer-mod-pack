@@ -50,6 +50,47 @@
 
 (define-extern parameter-ease-sin-clamp (function float float))
 
+(defenum camera-slave-options
+  :type uint32
+  :bitfield #t
+  (butt-cam)
+  (same-side)
+  (move-spherical)
+  (allow-z-rot)
+  (pitch-for-jump)
+  (collide)
+  (find-hidden-target)
+  (drag)
+  (line-of-sight)
+  (no-rotate)
+  (sticky-angle))
+
+;; +++camera-blend-to-type
+(defenum camera-blend-to-type
+  :type uint64
+  (unknown-0 0)
+  (unknown-1 1)
+  (unknown-2 2))
+;; ---camera-h:camera-blend-to-type
+
+;; NOTE - for settings
+(declare-type camera-slave process)
+(define-extern cam-master-set-entity (function cam-setting-data none))
+(define-extern cam-eye (state camera-slave))
+(define-extern cam-endlessfall (state camera-slave))
+(define-extern cam-master-activate-slave (function symbol none))
+
+;; NOTE - for camera
+(declare-type cam-rotation-tracker structure)
+(define-extern cam-calc-follow! (function cam-rotation-tracker vector symbol vector))
+(define-extern slave-set-rotation! (function cam-rotation-tracker vector float float symbol none))
+
+;; NOTE - for cam-start
+(declare-type camera-master process)
+(define-extern cam-master-init (function none :behavior camera-master))
+
+(define-extern parameter-ease-sin-clamp (function float float))
+
 ;; DECOMP BEGINS
 
 (deftype cam-index (structure)

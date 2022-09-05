@@ -1941,7 +1941,8 @@
 
  :deps
  ("$OUT/obj/main.o"
-  "$OUT/obj/video.o")
+  "$OUT/obj/video.o"
+  "$OUT/obj/water-h.o")
 
  "collide/collide-cache.gc"
  "entity/relocate.gc"

@@ -258,6 +258,10 @@
        (set! (-> obj level-opened v1-53) (the-as uint 0))
        (nop!)
        )
+     (set! (-> obj green-eco-total) 0.0)
+     (set! (-> obj blue-eco-total) 0.0)
+     (set! (-> obj red-eco-total) 0.0)
+     (set! (-> obj yellow-eco-total) 0.0)
      )
     )
   (case cause
@@ -688,8 +692,8 @@
                        (< (- (-> *display* base-frame-counter) (-> obj eco-source-time)) (seconds 0.5))
                        )
                   )
-         (cpad-set-buzz! (-> *cpad-list* cpads 0) 1 127 (seconds 0.2))
-         (cpad-set-buzz! (-> *cpad-list* cpads 0) 0 17 (seconds 0.2))
+         (cpad-set-buzz! (-> (the-as target (-> obj process)) control unknown-cpad-info00) 1 127 (seconds 0.2))
+         (cpad-set-buzz! (-> (the-as target (-> obj process)) control unknown-cpad-info00) 0 17 (seconds 0.2))
          (case kind
            (((pickup-type eco-blue))
             (sound-play "get-blue-eco")
