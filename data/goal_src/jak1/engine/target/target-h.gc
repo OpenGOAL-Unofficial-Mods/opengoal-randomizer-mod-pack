@@ -56,7 +56,7 @@
     (target-attack-uppercut-jump float float)
     target-billy-game
     (target-clone-anim handle)
-    (target-continue continue-point int)
+    (target-continue continue-point)
     (target-death symbol)
     target-demo
     (target-double-jump float float)
@@ -161,15 +161,6 @@
 
 
 (define-perm *target* target #f)
-;; For multiplayer
-(define *target-list* (new 'global 'boxed-array handle 4))
-
-(defun get-target ((tgt-idx int))
-  (if (zero? (-> *target-list* tgt-idx))
-    (the-as target #f)
-    (the-as target (handle->process (-> *target-list* tgt-idx)))
-    )
-  )
 
 (deftype sidekick (process-drawable)
   ((parent-override  (pointer target)  :offset         12)
