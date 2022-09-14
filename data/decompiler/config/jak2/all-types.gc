@@ -7895,6 +7895,7 @@
 
 (declare-type time-of-day-proc process)
 (define-extern *time-of-day* (pointer time-of-day-proc))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mspace-h                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
