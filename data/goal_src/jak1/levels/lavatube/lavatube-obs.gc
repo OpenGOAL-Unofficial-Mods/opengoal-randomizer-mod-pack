@@ -1279,8 +1279,8 @@
   ()
   :heap-base #x70
   :method-count-assert 30
-  :size-assert         #xd4
-  :flag-assert         #x1e007000d4
+  :size-assert         #xdc
+  :flag-assert         #x1e007000dc
   )
 
 
@@ -1318,10 +1318,8 @@
     (set! (-> v1-2 global-scale) 2048.0)
     (set! (-> v1-2 waveform) ripple-for-lavatube-lava)
     )
-  (dotimes (tgt-idx 4)
-    (logclear! (-> obj flags tgt-idx) (water-flags wt23))
-    (logior! (-> obj flags tgt-idx) (water-flags wt25))
-    )
+  (logclear! (-> obj flags) (water-flags wt23))
+  (set! (-> obj flags) (logior (water-flags wt25) (-> obj flags)))
   (set! (-> obj attack-event) 'heat)
   (none)
   )

@@ -161,6 +161,7 @@
     )
   )
 
+
 (deftype target-board-bank (basic)
   ((jump-height-min        meters   :offset-assert   4)
    (jump-height-max        meters   :offset-assert   8)
@@ -178,6 +179,7 @@
   :size-assert         #x34
   :flag-assert         #x900000034
   )
+
 
 (define *TARGET_BOARD-bank* (new 'static 'target-board-bank
                               :jump-height-min (meters 1.01)

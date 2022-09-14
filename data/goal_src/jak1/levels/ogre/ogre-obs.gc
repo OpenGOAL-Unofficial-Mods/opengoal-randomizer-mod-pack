@@ -1234,13 +1234,13 @@
   )
 
 (deftype ogre-lava (water-anim)
-  ((idle-anim int32  :offset-assert 212)
-   (anim      int32  :offset-assert 216)
+  ((idle-anim int32  :offset-assert 220)
+   (anim      int32  :offset-assert 224)
    )
   :heap-base #x80
   :method-count-assert 30
-  :size-assert         #xdc
-  :flag-assert         #x1e008000dc
+  :size-assert         #xe4
+  :flag-assert         #x1e008000e4
   )
 
 
@@ -1324,11 +1324,8 @@
     (set! (-> v1-2 global-scale) 2048.0)
     (set! (-> v1-2 waveform) ripple-for-ogre-lava)
     )
-  
-  (dotimes (tgt-idx 4)
-    (logclear! (-> obj flags tgt-idx) (water-flags wt23))
-    (logior! (-> obj flags tgt-idx) (water-flags wt25))
-    )
+  (logclear! (-> obj flags) (water-flags wt23))
+  (set! (-> obj flags) (logior (water-flags wt25) (-> obj flags)))
   (set! (-> obj attack-event) 'lava)
   (none)
   )

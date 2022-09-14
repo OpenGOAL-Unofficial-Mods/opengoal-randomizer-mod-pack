@@ -71,7 +71,7 @@
   (unknown-0 0)
   (unknown-1 1)
   (unknown-2 2))
-;; ---camera-h:camera-blend-to-type
+;; ---camera-blend-to-type
 
 ;; NOTE - for settings
 (declare-type camera-slave process)
