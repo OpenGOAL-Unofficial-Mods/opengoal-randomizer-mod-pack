@@ -2079,6 +2079,11 @@
         (set! *target* #f)
         )
     )
+    
+     (if  (-> *randomizer-settings* checkpoint-randomizer?)
+      (auto-save-command 'auto-save 0 0 *default-pool*)
+      (none)
+     )
   *target*
   )
 
