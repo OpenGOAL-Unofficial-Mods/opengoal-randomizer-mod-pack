@@ -192,6 +192,10 @@
    (death-pos             vector-array                  :offset-assert 312)
    (dummy                 basic                         :offset-assert 316)
    (auto-save-count       int32                         :offset-assert 320)
+   (green-eco-total       float                         :offset-assert 324)
+   (blue-eco-total        float                         :offset-assert 328)
+   (red-eco-total         float                         :offset-assert 332)
+   (yellow-eco-total      float                         :offset-assert 336)
    )
   :method-count-assert 30
   :size-assert         #x154
