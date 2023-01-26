@@ -3,7 +3,7 @@
 
 ;; name: main.gc
 ;; name in dgo: main
-;; dgos: GAME, ENGINE
+;; dgos: GAME, ENGINE, main
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Letterbox and blackout
