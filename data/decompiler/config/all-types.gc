@@ -1605,6 +1605,7 @@
   (swedish                      #x1114)
   (danish                       #x1115)
   (norwegian                    #x1116)
+  (hungarian                    #x1117)
   (scene-0                      #x1200)
   (scene-255                    #x12ff)
   (hint-0                       #x1300)
@@ -5591,13 +5592,10 @@
    (prev-level        basic     :offset-assert 104)
    (next-level        basic     :offset-assert 108)
    (wait-for-load     symbol    :offset-assert 112)
-   (customname string)
-   (custom-orb-count int)
-   (custom-buzzer-count int)
    )
   :method-count-assert 9
-  ;; :size-assert         #x74
-  ;; :flag-assert         #x900000074
+  :size-assert         #x74
+  :flag-assert         #x900000074
   )
 
 (declare-type drawable basic)
