@@ -11,7 +11,6 @@
 (define-extern knuth-rand-next-int (function int))
 
 (define *randomizer-version-string* "Rando 0.12")
-(define *release-version-string* "Release 0.1.29+")
 (define *comment-string* "Option to randomize by level, then by checkpoint")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
@@ -266,15 +265,6 @@
       )
    )
 
-  ;;clean *stdcon*
-  (clear *stdcon*)
-  (if (> *randomizer-items-collected* 0)
-    ;; Display the current seed
-    (if (= *cheat-mode* 'debug)
-      (format *stdcon* "SEED: ~D~%~S ~%~S ~%~S~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string* *release-version-string* *comment-string*)
-      (format *stdcon* "SEED: ~D~%~S ~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string*)
-    )
-  )
   (update-collectable-hud-counters)
   (when (-> *randomizer-settings* use-random-seed?)
       ;; burn through a random number every frame for improved randomness
@@ -344,8 +334,7 @@
 (defun warpToCheckpoint ((checkpointName string))
   ;; warps to checkpoint, assuming it is already safe to use
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
-  (define checkpoint (get-continue-by-name *game-info* checkpointName))
-  (set! (-> *game-info* current-continue) checkpoint)
+  (set-continue! *game-info* checkpointName)
 
   ;; trigger death to warp to checkpoint
   ;; this ensures init functions for new level run (misty boat, citadel elevator)
@@ -355,15 +344,6 @@
 
 (defun checkpointValid? ((checkpointName string))
   (case-str checkpointName
-    ;; avoid citadel warps if cutscene task not closed
-    (  
-      ("citadel-start" "citadel-entrance" "citadel-warp" "citadel-launch-start" 
-        "citadel-launch-end" "citadel-plat-start" "citadel-plat-end" 
-        "citadel-generator-start" "citadel-generator-end" "citadel-elevator")
-      (if (not (task-closed? (game-task citadel-sage-green) (task-status need-hint)))
-        (return #f)
-      )
-    )
     ;; avoid village1-warp if cutscene tasks not closed
     (
       ("village1-warp")
@@ -379,7 +359,7 @@
   ;; additional checkpoints enabled/disabled
   (if (logtest? (-> (get-continue-by-name *game-info* checkpointName) flags) (continue-flags additional-disabled))
     (return #f)
-  )
+    )
 
   #t
 )

@@ -223,6 +223,7 @@
             (or (= (get-task-status (game-task beach-ecorocks)) (task-status need-hint))
                 (= (get-task-status (game-task beach-ecorocks)) (task-status need-introduction))
                 )
+            (#when PC_PORT (not (is-speedrun-category? 'il-village1)))  ;; modified for PC port - skip green sage cutscene in Sandover IL speedrun
             )
        (let ((s5-4 (entity-by-name "sage-23")))
          (when s5-4
@@ -592,7 +593,9 @@
            (= v1-13 'up)
            )
          )
-       (sound-play "hit-up")
+      ;;  (sound-play "hit-up")
+       (sound-play "get-burned")
+
        )
       (else
         (sound-play "oof")
@@ -733,6 +736,9 @@
      (ja-no-eval :group! eichar-jump-ja :num! (seek!) :frame-num 0.0)
      (when (= (-> arg0 angle) 'air)
        (sound-play "smack-surface")
+       (if (-> *challenges-settings* challenges-bonkless?)
+        (reset-all)
+        )
        (dummy-10 (-> self skel effect) 'group-smack-surface (the-as float 0.0) 5)
        (dummy-10 (-> self skel effect) 'group-smack-surface-dizzy (the-as float 0.0) 8)
        )
@@ -741,6 +747,9 @@
      (ja-channel-push! 1 (seconds 0.05))
      (ja-no-eval :group! eichar-smack-surface-ja :num! (seek!) :frame-num 0.0)
      (sound-play "smack-surface")
+     (if (-> *challenges-settings* challenges-bonkless?)
+      (reset-all)
+      )
      )
     (else
       (when (not (ja-group? eichar-hit-from-front-ja))
@@ -1341,10 +1350,8 @@
            (sound-play "death-drown")
            )
           )
-        (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-death?))
-          (begin
-            (orchestrateCheckpointWarp 1)
-            )
+        (when (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-death?))
+          (orchestrateCheckpointWarp 1)
           )
         (+! (-> *game-info* death-movie-tick) 1)
         (if (= (death-movie-remap (+ (-> *game-info* death-movie-tick) -1) (-> *death-spool-array* length))
