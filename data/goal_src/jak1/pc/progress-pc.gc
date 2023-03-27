@@ -233,7 +233,7 @@
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warpyelloweco?) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warpecovents?) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warpdeath?) :scale #t)
-    (new 'static 'game-option :name (game-text-id item-count-to-trigger-warp) :scale #t :param1 1.0 :param2 102.0)
+    (new 'static 'game-option :name (game-text-id item-count-to-trigger-warp) :scale #t :param1 1.0 :param2 100.0)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -314,6 +314,7 @@
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-reset-current-run) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-new-full-game) :scale #t)
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id speedrun-new-individual-level) :scale #t :param3 (game-option-menu speedrun-il-options))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id speedrun-new-cat-ext) :scale #t :param3 (game-option-menu speedrun-cat-ext-options))
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -336,6 +337,18 @@
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-il-cave) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-il-lavatube) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-il-citadel) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+
+(define *speedrun-cat-ext-options*
+  (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-new-full-game) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-new-game-plus) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-hub1-100) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-hub2-100) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-hub3-100) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id speedrun-all-cutscenes) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -868,6 +881,7 @@
   (set! (-> *options-remap* (progress-screen additional-checkpoint-options)) *additional-checkpoint-options*)
   (set! (-> *options-remap* (progress-screen speedrun-options))           *speedrun-options*)
   (set! (-> *options-remap* (progress-screen speedrun-il-options))        *speedrun-il-options*)
+  (set! (-> *options-remap* (progress-screen speedrun-cat-ext-options))        *speedrun-cat-ext-options*)
 
 
   ;; set default params
@@ -919,6 +933,7 @@
   (set! (-> *randomizer-main-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
   (set! (-> *randomizer-main-options* 1 value-to-modify) (&-> *randomizer-settings* use-random-seed?))
   (set! (-> *randomizer-main-options* 2 value-to-modify) (&-> *progress-carousell* int-backup)) ;; checkpoint-logic
+  ;; index 3 - randomizer-warp-options menu
   (set! (-> *randomizer-main-options* 4 value-to-modify) (&-> *randomizer-settings* show-warp-counter?))
 
   (set! (-> *randomizer-warp-options* 0 value-to-modify) (&-> *randomizer-settings* warp-on-cell?))
@@ -1507,6 +1522,21 @@
                   )
                  (((game-text-id speedrun-il-citadel))
                   (progress-fast-save-and-start-speedrun (speedrun-category il-citadel))
+                  )
+                 (((game-text-id speedrun-new-game-plus))
+                  (progress-fast-save-and-start-speedrun (speedrun-category new-game-plus))
+                  )
+                 (((game-text-id speedrun-hub1-100))
+                  (progress-fast-save-and-start-speedrun (speedrun-category hub1-100))
+                  )
+                 (((game-text-id speedrun-hub2-100))
+                  (progress-fast-save-and-start-speedrun (speedrun-category hub2-100))
+                  )
+                 (((game-text-id speedrun-hub3-100))
+                  (progress-fast-save-and-start-speedrun (speedrun-category hub3-100))
+                  )
+                 (((game-text-id speedrun-all-cutscenes))
+                  (progress-fast-save-and-start-speedrun (speedrun-category all-cutscenes))
                   )
                 )
                 (commit-to-file *pc-settings*)
@@ -2670,7 +2700,7 @@
          (draw-notice-screen self)
          (draw-options self 155 25 0.65)
           )
-        (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options))
+        (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options) (progress-screen speedrun-cat-ext-options))
          ;; camera options lines are a bit too big
          (hide-progress-icons)
          (draw-options self 115 25 0.65)

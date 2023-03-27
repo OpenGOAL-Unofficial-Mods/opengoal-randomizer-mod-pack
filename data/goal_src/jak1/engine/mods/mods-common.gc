@@ -135,7 +135,6 @@
   (when (enable-unlock-citadel-door-no-cells?)
     (unlock-citadel-door-no-cells)
     )
-
   (none)
   )
 
