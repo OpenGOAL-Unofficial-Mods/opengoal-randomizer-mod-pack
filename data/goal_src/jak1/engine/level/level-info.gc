@@ -1227,8 +1227,8 @@
         :vis-nick 'vi3
         :lev0 'village3
         :disp0 'display
-        :lev1 'maincave
-        :disp1 'display
+        :lev1 'snow
+        :disp1 #f
         )
       )
     :tasks '(96 97 98 99 100 101 74 77)

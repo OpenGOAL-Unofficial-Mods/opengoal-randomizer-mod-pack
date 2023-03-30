@@ -5,21 +5,22 @@
 ;; name in dgo: connect
 ;; dgos: ENGINE, GAME
 
+#|@file
+This extremely confusing "connection system" allows the connection between
+"engines" and "processes".  Basically, a process can "register" itself with any number of "engines".
+The "engines" can then iterate through all the connected processes. If a process is destroyed, it will
+be removed from all engines.  It is okay to connect a process to multiple engines, or even to the same engine
+multiple times.
+
+Some example uses:
+- a "foreground-engine" has connections to all foreground objects that need to be drawn on each frame.
+- when a process wants to change a game setting, it opens a connection to the settings engine to request a change.
+  when the process is killed (or it stops requesting the change), the setting change is reverted.
+
+A "connection" is really just a function that gets called when the engine runs, or a set of parameters that the engine can iterate through.
+|#
+
 ;; DECOMP BEGINS
-
-;; This extremely confusing "connection system" allows the connection between
-;; "engines" and "processes".  Basically, a process can "register" itself with any number of "engines".
-;; The "engines" can then iterate through all the connected processes. If a process is destroyed, it will
-;; be removed from all engines.  It is okay to connect a process to multiple engines, or even to the same engine
-;; multiple times.
-
-;; Some example uses:
-;; - a "foreground-engine" has connections to all foreground objects that need to be drawn on each frame.
-;; - when a process wants to change a game setting, it opens a connection to the settings engine to request a change.
-;;   when the process is killed (or it stops requesting the change), the setting change is reverted.
-
-;; A "connection" is really just a function that gets called when the engine runs, or a set of parameters that the engine can iterate through.
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; connectable
@@ -60,7 +61,7 @@
 
 (deftype connection (connectable)
   ((param0 basic     :offset-assert  16)
-   (param1 int32     :offset-assert  20)
+   (param1 basic     :offset-assert  20)
    (param2 int32     :offset-assert  24)
    (param3 int32     :offset-assert  28)
    (quad   uint128 2 :offset          0)
@@ -394,7 +395,7 @@
   (let ((v1-0 (the-as connection (-> obj dead-list next0))))
     (when (not (or (not arg0) (= v1-0 (-> obj dead-list-end))))
       (set! (-> v1-0 param0) (the-as basic arg1))
-      (set! (-> v1-0 param1) (the-as int arg2))
+      (set! (-> v1-0 param1) (the-as basic arg2))
       (set! (-> v1-0 param2) (the-as int arg3))
       (set! (-> v1-0 param3) (the-as int arg4))
       (set! (-> obj dead-list next0) (-> v1-0 next0))
