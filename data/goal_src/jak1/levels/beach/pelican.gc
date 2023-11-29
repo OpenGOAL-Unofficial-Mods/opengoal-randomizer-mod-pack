@@ -6,7 +6,6 @@
 ;; dgos: BEA, L1
 
 ;; DECOMP BEGINS
-(define-extern enable-pelican-explode-punch (function symbol))
 (import "goal_src/jak1/import/pelican-ag.gc")
 
 (deftype pelican-bank (basic)
@@ -443,8 +442,8 @@
         object
         (cond
           ((= v1-0 'attack)
-           (if (or (enable-pelican-explode-punch?) (= (-> arg3 param 1) 'explode))
-            (begin
+           (case (-> arg3 param 1)
+             (('explode)
               (let ((a0-2 (handle->process (-> self fuel-cell))))
                 (if a0-2
                     (send-event a0-2 'trans (-> self root-override trans))
@@ -453,7 +452,7 @@
               (go pelican-explode #f)
               #f
               )
-            (begin
+            (else
                (let* ((gp-0 arg0)
                       (v1-13 (if (and (nonzero? gp-0) (type-type? (-> gp-0 type) process-drawable))
                                  gp-0
@@ -898,6 +897,9 @@
   (set! (-> obj neck ear) (the-as uint 0))
   (set! (-> obj neck max-dist) 61440.0)
   (set! (-> obj neck ignore-angle) 16384.0)
+  (when (task-complete? *game-info* (-> obj entity extra perm task))
+    (go pelican-wait-at-end #t)
+    )
   (case (-> obj entity extra perm user-int8 0)
     ((10)
      (go pelican-wait-at-end #t)
@@ -931,10 +933,6 @@
                                           )
                                      )
            )
-           (if (enable-pelican-explode-punch?)
-            ;;This would be important in a no cutscenes as well.
-              (go pelican-wait-at-end #t)
-            )
             
          (send-event (ppointer->process s5-2) 'trans-hook fuel-cell-animate)
          )
